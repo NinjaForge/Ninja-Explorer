@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install type="component" version="1.5.0" method="upgrade">
+    <name>ninjaXplorer</name>
+    <creationDate>April 2008</creationDate>
+    <author>Richie Mortimer</author>
+    <copyright>Richie Mortimer, Ninjaforge.com</copyright>
+    <authorEmail>richie@ninjaforge.com</authorEmail>
+    <authorUrl>http://ninjaforge.com</authorUrl>
+    <version>1.0.6</version>
+    <description></description>
+    <files><!-- Frontend Files! -->
+        <filename>configuration.nx.php</filename>
+        <filename>ninjaxplorer.php</filename>
+        <filename>ninjaxplorer.init.php</filename>
+        <filename>ninjaxplorer.list.php</filename>
+    </files>
+    <install/>
+    <uninstall/>	
+    <installfile>install.ninjaxplorer.php</installfile>
+    <administration>
+        <menu img="components/com_ninjaxplorer/images/nssIcon.png">ninjaXplorer</menu>
+        <files><!-- Backend Files! -->
+    			<folder>config/</folder>
+    			<folder>images/</folder>
+    			<folder>include/</folder>
+    			<folder>ftp_tmp/</folder>
+    			<folder>languages/</folder>
+    			<folder>libraries/</folder>
+    			<folder>scripts/</folder>
+          		<folder>style/</folder>                        			
+         		<filename>CHANGELOG.txt</filename>
+    			<filename>LICENSE</filename>
+    			<filename>admin.ninjaxplorer.php</filename>
+    			<filename>index.html</filename>
+    			<filename>install.ninjaxplorer.php</filename>
+    			<filename>ninjaxplorer.xml</filename>
+        </files>
+    </administration>
+</install>

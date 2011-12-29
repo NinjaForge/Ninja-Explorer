@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>  
+<project name="com_ninjaxplorer" basedir=".." default="build">
+
+	<import file="${project.basedir}/scripts/build/component.xml" />
+
+</project>
