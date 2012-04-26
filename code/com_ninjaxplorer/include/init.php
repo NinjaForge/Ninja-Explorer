@@ -82,9 +82,9 @@ if($GLOBALS["srt"]=="")
   $GLOBALS["srt"]=="yes";
 // Get Language
 if(isset($GLOBALS['__GET']["lang"])) 
-  $GLOBALS["lang"]=$GLOBALS["language"]=$GLOBALS['__GET']["lang"];
+  $GLOBALS["lang"]=$GLOBALS["language"]=basename($GLOBALS['__GET']["lang"]);
 elseif(isset($GLOBALS['__POST']["lang"])) 
-  $GLOBALS["lang"]=$GLOBALS["language"]=$GLOBALS['__POST']["lang"];
+  $GLOBALS["lang"]=$GLOBALS["language"]=basename($GLOBALS['__POST']["lang"]);
 //------------------------------------------------------------------------------
 
 /** @var $GLOBALS['file_mode'] Can be 'file' or 'ftp' */
