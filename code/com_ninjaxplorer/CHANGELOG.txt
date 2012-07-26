@@ -1,6 +1,9 @@
 *********************************
 Changelog for ninjaXplorer
 *********************************
+--- version 1.0.7 released ---
+* Fixed security vulnerability
+
 --- version 1.0.6 released ---
 * Fixed PHP 5.3 compatibility issue (ereg to preg_match) - contributed by Rene Kreijveld 
 
