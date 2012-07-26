@@ -50,7 +50,7 @@ class HTML_admin_misc
     function system_info( )
     {
         global $mainframe;
-        $compobase = JPATH_SITE.DS."administrator".DS."components".DS."com_admin";
+        $compobase = JPATH_SITE.DS."administrator".DS."components".DS."com_admin".DS."views".DS."sysinfo";
 
         //Load switcher behavior
         JHTML::_('behavior.switcher');
@@ -59,7 +59,7 @@ class HTML_admin_misc
 
         $contents = '';
         ob_start();
-        require_once($compobase.DS.'tmpl'.DS.'navigation.php');
+        //require_once($compobase.DS.'tmpl'.DS.'navigation.php');
         $contents = ob_get_contents();
         ob_clean();
 
@@ -73,7 +73,7 @@ class HTML_admin_misc
                 <table class="noshow">
                 <tr>
                     <td>
-                        <?php require_once($compobase.DS.'tmpl'.DS.'sysinfo_system.php'); ?>
+                        <?php require_once($compobase.DS.'tmpl'.DS.'default.php'); ?>
                     </td>
                 </tr>
                 </table>
@@ -83,7 +83,7 @@ class HTML_admin_misc
                 <table class="noshow">
                 <tr>
                     <td>
-                        <?php require_once($compobase.DS.'tmpl'.DS.'sysinfo_phpsettings.php'); ?>
+                        <?php //require_once($compobase.DS.'tmpl'.DS.'default_phpsettings.php'); ?>
                     </td>
                 </tr>
                 </table>
@@ -93,7 +93,7 @@ class HTML_admin_misc
                 <table class="noshow">
                 <tr>
                     <td>
-                        <?php require_once($compobase.DS.'tmpl'.DS.'sysinfo_config.php'); ?>
+                        <?php //require_once($compobase.DS.'tmpl'.DS.'default_config.php'); ?>
                     </td>
                 </tr>
                 </table>
@@ -103,7 +103,7 @@ class HTML_admin_misc
                 <table class="noshow">
                 <tr>
                     <td>
-                        <?php require_once($compobase.DS.'tmpl'.DS.'sysinfo_directory.php'); ?>
+                        <?php //require_once($compobase.DS.'tmpl'.DS.'default_directory.php'); ?>
                     </td>
                 </tr>
                 </table>
@@ -113,7 +113,7 @@ class HTML_admin_misc
                 <table class="noshow">
                 <tr>
                     <td>
-                        <?php require_once($compobase.DS.'tmpl'.DS.'sysinfo_phpinfo.php'); ?>
+                        <?php //require_once($compobase.DS.'tmpl'.DS.'default_phpinfo.php'); ?>
                     </td>
                 </tr>
                 </table>

@@ -151,5 +151,6 @@ function ftp_logout() {
 	unset($_SESSION['ftp_pass']);
 	unset($_SESSION['ftp_host']);
 	session_write_close();
-	$mainframe->redirect('index2.php?option=com_ninjaxplorer&file_mode=file');
+	$jApp = JFactory::getApplication();		
+	$jApp->redirect('index2.php?option=com_ninjaxplorer&file_mode=file');
 }

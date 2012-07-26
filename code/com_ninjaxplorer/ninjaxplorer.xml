@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
-<install type="component" version="1.5.0" method="upgrade">
+<install type="component" version="2.5.0" method="upgrade">
     <name>ninjaXplorer</name>
-    <creationDate>April 2012</creationDate>
+    <creationDate>April 2008</creationDate>
     <author>Richie Mortimer</author>
     <copyright>Richie Mortimer, Ninjaforge.com</copyright>
-    <authorEmail>support@ninjaforge.com</authorEmail>
+    <authorEmail>richie@ninjaforge.com</authorEmail>
     <authorUrl>http://ninjaforge.com</authorUrl>
-    <version>1.0.7</version>
+    <version>2.5.0</version>
     <description></description>
     <files><!-- Frontend Files! -->
         <filename>configuration.nx.php</filename>

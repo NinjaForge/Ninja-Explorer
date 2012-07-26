@@ -1,6 +1,7 @@
 <?php
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+$jApp = JFactory::getApplication();	
 /**
  * @version $Id: init.php 99 2008-04-20 15:10:20Z soeren $
  * @package joomlaXplorer
@@ -82,9 +83,9 @@ if($GLOBALS["srt"]=="")
   $GLOBALS["srt"]=="yes";
 // Get Language
 if(isset($GLOBALS['__GET']["lang"])) 
-  $GLOBALS["lang"]=$GLOBALS["language"]=basename($GLOBALS['__GET']["lang"]);
+  $GLOBALS["lang"]=$GLOBALS["language"]=$GLOBALS['__GET']["lang"];
 elseif(isset($GLOBALS['__POST']["lang"])) 
-  $GLOBALS["lang"]=$GLOBALS["language"]=basename($GLOBALS['__POST']["lang"]);
+  $GLOBALS["lang"]=$GLOBALS["language"]=$GLOBALS['__POST']["lang"];
 //------------------------------------------------------------------------------
 
 /** @var $GLOBALS['file_mode'] Can be 'file' or 'ftp' */
@@ -94,7 +95,8 @@ if( !isset( $_REQUEST['file_mode'] ) && !empty($_SESSION['file_mode'] )) {
 else {
 	if( @$_REQUEST['file_mode'] == 'ftp' && @$_SESSION['file_mode'] == 'file') {
 		if( empty( $_SESSION['ftp_login']) && empty( $_SESSION['ftp_pass'])) {
-			$mainframe->redirect( 'index2.php?option=com_ninjaxplorer&action=ftp_authentication' );
+			//$mainframe->redirect( 'index2.php?option=com_ninjaxplorer&action=ftp_authentication' );
+			$jApp->redirect('index2.php?option=com_ninjaxplorer&action=ftp_authentication');
 		}
 		else {
 			$GLOBALS['file_mode'] = $_SESSION['file_mode'] = JArrayHelper::getValue( $_REQUEST, 'file_mode', 'file' );

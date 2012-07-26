@@ -68,7 +68,7 @@ defined('_JEXEC') or die('Restricted access');
 //along with this program; if not, write to the Free Software
 //Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ###################################################################
-global $mainframe;
+$mainframe =& JFactory::getApplication();
 $document =& JFactory::getDocument();
 $user         = &JFactory::getUser();
 $acl          = &JFactory::getACL();
@@ -78,10 +78,11 @@ $database     = &JFactory::getDBO();
 	$mainframe->redirect( 'index2.php', _NOT_AUTH );
 }   */
 //get the users ID
-$myRealGid = intval( $acl->get_group_id( $user->usertype ) );
-//check to see if there superadmin, if not redirect them.
-if ($myRealGid != 25) {
-    $mainframe->redirect( 'index2.php', _NOT_AUTH );
+//$myRealGid = intval( $user->get('groups') );
+
+//check to see if there superadmin, if not redirect them. for joomla 2.5
+if (!in_array(8, $user->groups)) {
+    $mainframe->redirect( 'index.php', "Access forbidden", "error");
 }
 // The ninjaXplorer version number
 $GLOBALS['nx_version'] = '1.0.5';
@@ -102,7 +103,7 @@ file_put_contents( 'joomlaxplorer_filelist.txt', $contents );
 
 define ( "_QUIXPLORER_PATH", JPATH_SITE."/administrator/components/com_ninjaxplorer" );
 define ( "_QUIXPLORER_FTPTMP_PATH", JPATH_SITE."/administrator/components/com_ninjaxplorer/ftp_tmp" );
-define ( "_QUIXPLORER_URL", $mainframe->getSiteURL()."administrator/components/com_ninjaxplorer" );
+define ( "_QUIXPLORER_URL", JURI::base()."components/com_ninjaxplorer" );
 
 //------------------------------------------------------------------------------
 if( defined( 'E_STRICT' )) { 
@@ -123,7 +124,7 @@ if( $action == "post" ) {
 
 //if( is_callable( array( $mainframe, 'addcustomheadtag')) ) {
 	$document->addScript( "components/com_ninjaxplorer/style/opacity.js" );
-//	$document->addScript( "components/com_ninjaxplorer/scripts/mootools.ajax.js" );
+	$document->addScript( "components/com_ninjaxplorer/scripts/mootools.ajax.js" );
 /*} else {
 	echo '<script type="text/javascript" src="components/com_ninjaxplorer/style/opacity.js"></script>'
 		.'<script type="text/javascript" src="components/com_nijaxplorer/scripts/mootools.ajax.js"></script>';

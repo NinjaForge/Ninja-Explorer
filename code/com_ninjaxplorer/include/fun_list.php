@@ -412,7 +412,7 @@ function list_dir($dir) {			// list directory contents
 	global $dir_up, $_VERSION;
 	//print_r('<br/>$dir: '.$dir); 
 	?>
-	<script type="text/javascript" src="<?php echo JURI::root();?>/includes/js/overlib_mini.js"></script>
+	<script type="text/javascript" src="<?php echo JURI::root();?>/administrator/components/com_ninjaxplorer/scripts/overlib_mini.js"></script>
 	<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 	<?php
 	
@@ -477,14 +477,13 @@ function list_dir($dir) {			// list directory contents
 		echo "alt=\"".$GLOBALS["messages"]["searchlink"]."\" title=\"".$GLOBALS["messages"]["searchlink"];
 		echo "\"></a></td>\n";
 	}
-	echo "<td><img src=\"images/menu_divider.png\" height=\"22\" width=\"2\" border=\"0\" alt=\"|\" /></td>";
+	echo "<td><img src=\""._QUIXPLORER_URL."/images/menu_divider.png\" height=\"22\" width=\"2\" border=\"0\" alt=\"|\" /></td>";
 	
 	// Joomla Sysinfo
-	echo "<td><a href=\"".make_link("sysinfo",$dir,NULL)."\">";
-	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/systeminfo.gif\" ";
-	echo "alt=\"" . $GLOBALS['messages']['mossysinfolink'] . "\" title=\"" .$GLOBALS['messages']['mossysinfolink'] . "\"></a></td>\n";
-	
-	echo "<td><img src=\"images/menu_divider.png\" height=\"22\" width=\"2\" border=\"0\" alt=\"|\" /></td>";
+	//echo "<td><a href=\"".make_link("sysinfo",$dir,NULL)."\">";
+	//echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/systeminfo.gif\" ";
+	//echo "alt=\"" . $GLOBALS['messages']['mossysinfolink'] . "\" title=\"" .$GLOBALS['messages']['mossysinfolink'] . "\"></a></td>\n";
+	//echo "<td><img src=\"images/menu_divider.png\" height=\"22\" width=\"2\" border=\"0\" alt=\"|\" /></td>";
 	
 	if($allow) {
 		// COPY

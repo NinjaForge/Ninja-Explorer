@@ -42,7 +42,7 @@ Comment:
 //------------------------------------------------------------------------------
 function rename_item($dir, $item) {		// rename directory or file
 global $mainframe;
-	
+$jApp = JFactory::getApplication();		
 	if(($GLOBALS["permissions"]&01)!=01) {
 		show_error($GLOBALS["error_msg"]["accessfunc"]);
 	}
@@ -80,7 +80,8 @@ global $mainframe;
 		}
 		
 		$msg = sprintf( $GLOBALS['messages']['success_rename_file'], $item, $newitemname );
-		$mainframe->redirect( make_link("list", $dir, null), $msg );
+		//$mainframe->redirect( make_link("list", $dir, null), $msg );
+		$jApp->redirect(make_link("list", $dir, null), $msg);
 	}
 	
 	show_header($GLOBALS['messages']['rename_file']);

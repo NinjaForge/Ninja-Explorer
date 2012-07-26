@@ -79,7 +79,7 @@ function count_errors() {
 }
 function show_error($error,$extra=NULL) {		// show error-message
 global $mainframe;
-	
+$jApp = JFactory::getApplication();		
 	$msg = $error;
 	if($extra != NULL) {
 		$msg .= " - ".$extra;
@@ -88,7 +88,8 @@ global $mainframe;
 	
 	if( empty( $_GET['error'] )) {
 		session_write_close();
-		$mainframe->redirect( make_link("show_error", $GLOBALS["dir"]).'&error=1&extra='.urlencode( $extra ));
+		//$mainframe->redirect( make_link("show_error", $GLOBALS["dir"]).'&error=1&extra='.urlencode( $extra ));
+		$jApp->redirect(make_link("show_error", $GLOBALS["dir"]).'&error=1&extra='.urlencode( $extra ));
 	}
 	else {
 		show_header($GLOBALS["error_msg"]["error"]);

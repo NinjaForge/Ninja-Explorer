@@ -8,9 +8,10 @@ defined('_JEXEC') or die('Restricted access');
 	$GLOBALS["require_login"] = false;
 
 //$lang = JLanguage::getInstance( $lang );
-$filedir = $lang->getBackwardLang();
+
+//$filedir = $lang->getBackwardLang();
 	
-	$GLOBALS["language"] = $filedir;
+	$GLOBALS["language"] = 'english';
 	
 	// the filename of the QuiXplorer script: (you rarely need to change this)
 	if($_SERVER['SERVER_PORT'] == 443 ) {

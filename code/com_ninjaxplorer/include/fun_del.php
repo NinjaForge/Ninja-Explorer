@@ -41,7 +41,8 @@ Comment:
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
 function del_items($dir) {
-global $mainframe;		
+global $mainframe;
+$jApp = JFactory::getApplication();		
 	// delete files/dirs
 	if(($GLOBALS["permissions"]&01)!=01) 
 	  show_error($GLOBALS["error_msg"]["accessfunc"]);
@@ -92,7 +93,8 @@ global $mainframe;
 		}
 		show_error($err_msg);
 	}
-	$mainframe->redirect( make_link("list", $dir, null), $GLOBALS['messages']['success_delete_file'] );
+	//$mainframe->redirect( make_link("list", $dir, null), $GLOBALS['messages']['success_delete_file'] );
+	$jApp->redirect(make_link("list", $dir, null), $GLOBALS['messages']['success_delete_file']);
 }
 //------------------------------------------------------------------------------
 ?>

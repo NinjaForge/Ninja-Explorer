@@ -530,7 +530,7 @@ if( !function_exists('mosToolTip')) {
 			$title = ', CAPTION, \''.$title .'\'';
 		}
 		if ( !$text ) {
-			$image 	= JURI::root() . '/administrator/components/com_ninjaxplorer/includes/js/ThemeOffice/'. $image;
+			$image 	= JURI::root() . '/administrator/components/com_ninjaxplorer/images/'. $image;
 			$text 	= '<img src="'. $image .'" border="0" />';
 		}
 		$style = 'style="text-decoration: none; color: #333;"';

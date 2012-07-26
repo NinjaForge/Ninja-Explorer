@@ -193,9 +193,9 @@ function archive_items( $dir ) {
 				  echo '<option value="zip">Zip ('.$GLOBALS["messages"]['normal_compression'].')</option>'."\n";
 				  echo '<option value="tgz">Tar/Gz ('.$GLOBALS["messages"]['good_compression'].')</option>'."\n";
 				}
-				if(extension_loaded("bz2")) {
+				/*if(extension_loaded("bz2")) {
 					echo '<option value="tbz">Tar/Bzip2 ('.$GLOBALS["messages"]['best_compression'].')</option>'."\n";
-				}
+				}*/
 				echo '<option value="" disabled="disabled"> - - - - - - -</option>'."\n";
 				echo '<option value="tar">Tar ('.$GLOBALS["messages"]['no_compression'].')</option>'."\n";
 				?>
@@ -228,6 +228,7 @@ function archive_items( $dir ) {
 
 function extract_item( $dir, $item ) {
     global $mainframe;
+	$jApp = JFactory::getApplication();	
   
   if( !nx_isArchive( $item )) {
 	show_error($GLOBALS["error_msg"]["extract_noarchive"]);
@@ -254,7 +255,8 @@ function extract_item( $dir, $item ) {
 		}
 	  }
   
-	  $mainframe->redirect( make_link("list", $dir, null), $GLOBALS['messages']['extract_success'] );
+	  //$mainframe->redirect( make_link("list", $dir, null), $GLOBALS['messages']['extract_success'] );
+	  $jApp->redirect(make_link("list", $dir, null), $GLOBALS['messages']['extract_success']);
 }
 //------------------------------------------------------------------------------
 ?>

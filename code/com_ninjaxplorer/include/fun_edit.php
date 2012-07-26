@@ -60,7 +60,7 @@ function savefile($file_name) {			// save edited file
 //------------------------------------------------------------------------------
 function edit_file($dir, $item) {		// edit file
 	global $mainframe;
-	
+	$jApp = JFactory::getApplication();
 	if(($GLOBALS["permissions"]&01)!=01) 
 	  show_error($GLOBALS["error_msg"]["accessfunc"]);
 	$fname = get_abs_item($dir, $item);
@@ -81,10 +81,12 @@ function edit_file($dir, $item) {		// edit file
 		$fname=$fname2;
 		if( !empty( $GLOBALS['__POST']['return_to'])) {
 			$return_to = urldecode($GLOBALS['__POST']['return_to']);
-			$mainframe->redirect( $return_to );
+			//$mainframe->redirect( $return_to );
+			$jApp->redirect( $return_to );
 		}
 		elseif( !empty( $GLOBALS['__POST']['return_to_dir'])) {
-			$mainframe->redirect( $_SERVER['PHP_SELF'].'?option=com_ninjaxplorer&dir='.$dir, 'The File '.$item.' was saved.');
+			//$mainframe->redirect( $_SERVER['PHP_SELF'].'?option=com_ninjaxplorer&dir='.$dir, 'The File '.$item.' was saved.');
+			$jApp->redirect($_SERVER['PHP_SELF'].'?option=com_ninjaxplorer&dir='.$dir, 'The File '.$item.' was saved.');
 		}
 	}
 	
@@ -126,7 +128,8 @@ function edit_file($dir, $item) {		// edit file
 			$cp_lang = 'generic';
 	}
 	// Form
-	echo '<script type="text/javascript" src="components/com_ninjaxplorer/scripts/codepress/codepress.js"></script>';
+	echo '<script type="text/javascript" src="components/com_ninjaxplorer/scripts/codemirror/js/codemirror.js"></script>';
+	echo '<link rel="stylesheet" type="text/css" href="components/com_ninjaxplorer/scripts/codemirror/css/codemirror.css"/>';
 	echo "<br/><form name=\"editfrm\" id=\"editfrm\" method=\"post\" action=\"".make_link("edit",$dir,$item)."\">\n";
 	if( !empty( $GLOBALS['__GET']['return_to'])) {
 		$close_action = 'window.location=\''.urldecode($GLOBALS['__GET']['return_to']).'\';';
@@ -135,14 +138,14 @@ function edit_file($dir, $item) {		// edit file
 	else {
 		$close_action = 'window.location=\''. make_link('list',$dir,NULL)."'";
 	}
-	$submit_action = 'document.editfrm.code.value=codearea.getCode();document.editfrm.submit();';
+	$submit_action = 'UpdateCode();document.editfrm.submit();';
 	
 	echo "
 <table class=\"adminform\">
 	<tr>
 		<td style=\"text-align: center;\">
 			<input type=\"button\" value=\"".$GLOBALS["messages"]["btnsave"]."\" onclick=\"$submit_action\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type=\"reset\" value=\"".$GLOBALS["messages"]["btnreset"]."\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type=\"button\" onclick=\"ResetCode();\" value=\"".$GLOBALS["messages"]["btnreset"]."\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type=\"button\" value=\"".$GLOBALS["messages"]["btnclose"]."\" onclick=\"javascript:$close_action\" />
 		</td>
 	</tr>
@@ -152,7 +155,7 @@ function edit_file($dir, $item) {		// edit file
 			.$GLOBALS["messages"]["line"].": <input type=\"text\" name=\"txtLine\" class=\"inputbox\" size=\"6\" onchange=\"setCaretPosition(document.editfrm.code, this.value);return false;\" />&nbsp;&nbsp;&nbsp;"
 			.$GLOBALS["messages"]["column"].": <input type=\"text\" name=\"txtColumn\" class=\"inputbox\" size=\"6\" readonly=\"readonly\" />
           </div>
-			<div style=\"width:70%;text-align: center;float:left;\">
+			<div id=\"returnDirector\" style=\"width:70%;text-align: center;float:left;\">
 				<input type=\"checkbox\" value=\"1\" name=\"return_to_dir\" id=\"return_to_dir\" />
 				<label for=\"return_to_dir\">".$GLOBALS["messages"]["returndir"]."</label>
 			</div>";
@@ -171,9 +174,9 @@ function edit_file($dir, $item) {		// edit file
 	}
 	$content = htmlspecialchars( $content );
 
-		echo '[<a href="javascript:;" onclick="positionIndicator.toggle(); codearea.toggleEditor();return false;">'.$GLOBALS['messages']['editor_simple'].' / '.$GLOBALS['messages']['editor_syntaxhighlight'].'</a>]';
+		//echo '[<a href="javascript:;" onclick="positionIndicator.toggle(); codearea.toggleEditor();return false;">'.$GLOBALS['messages']['editor_simple'].' / '.$GLOBALS['messages']['editor_syntaxhighlight'].'</a>]';
 		echo '<div id="editorarea">
-		<textarea class="codepress '.$cp_lang.'" style="width:95%;" name="codearea" id="codearea" rows="25" cols="120" wrap="off" onmouseup="updatePosition(this)" onmousedown="updatePosition(this)" onkeyup="updatePosition(this)" onkeydown="updatePosition(this)" onfocus="updatePosition(this)">'
+		<textarea class="'.$cp_lang.'" style="width:95%;" name="codearea" id="codearea" rows="25" cols="120" wrap="off" onmouseup="updatePosition(this)" onmousedown="updatePosition(this)" onkeyup="updatePosition(this)" onkeydown="updatePosition(this)" onfocus="updatePosition(this)">'
 		. $content 
 		.'</textarea>
 		<input type="hidden" name="code" value="" />
@@ -195,12 +198,34 @@ function edit_file($dir, $item) {		// edit file
 	echo "
 </form>
 <br/>\n";
-	
-?><script type="text/javascript">
-<!--
-if(document.editfrm && document.editfrm.code) document.editfrm.code.focus();
+?>
+<script type="text/javascript">
+var editor = CodeMirror.fromTextArea('codearea', {
+parserfile: ["parsexml.js", "parsecss.js", "tokenizejavascript.js", "parsejavascript.js", "tokenizephp.js", "parsephp.js", "parsephphtmlmixed.js"],
+stylesheet: ["components/com_ninjaxplorer/scripts/codemirror/css/csscolors.css", 
+			 "components/com_ninjaxplorer/scripts/codemirror/css/jscolors.css", 
+			 "components/com_ninjaxplorer/scripts/codemirror/css/phpcolors.css", 
+			 "components/com_ninjaxplorer/scripts/codemirror/css/sparqlcolors.css", 
+			 "components/com_ninjaxplorer/scripts/codemirror/css/xmlcolors.css"],
+path: "components/com_ninjaxplorer/scripts/codemirror/js/",
+lineNumbers: true,
+tabMode: "indent",
+matchBrackets: true,
+searchMode: 'inline',
+});
+function UpdateCode()
+{
+	document.editfrm.code.value = editor.getCode();
+}
+function ResetCode()
+{
+	editor.setCode(document.editfrm.codearea.value);
+}
 
-positionIndicator = new Fx.Slide( 'positionIndicator' ).hide();
+<!--
+
+document.getElementById('positionIndicator').style.display='none';
+document.getElementById('returnDirector').style.width='100%';
 
 //http://www.bazon.net/mishoo/home.epl?NEWS_ID=1345
 function doGetCaretPosition (textarea) {
