@@ -167,9 +167,9 @@ function chmod_item($dir, $item) {		// change permissions
 	// Submit / Cancel
 	echo "</table>\n<br/>";
 	echo "<table>\n<tr><tr><td colspan=\"2\">\n<input name=\"do_recurse\" id=\"do_recurse\" type=\"checkbox\" value=\"1\" /><label for=\"do_recurse\">".$GLOBALS["messages"]["recurse_subdirs"]."</label></td></tr>\n";
-	echo "<tr><tr><td>\n<input type=\"submit\" value=\"".$GLOBALS["messages"]["btnchange"];
-	echo "\"></td>\n<td><input type=\"button\" value=\"".$GLOBALS["messages"]["btncancel"];
-	echo "\" onclick=\"javascript:location='".make_link("list",$dir,NULL)."';\">\n</td></tr></form></table><br />\n";
+	echo "<tr><tr><td><input class='btn' type=\"button\" value=\"".$GLOBALS["messages"]["btncancel"];
+	echo "\" onclick=\"javascript:location='".make_link("list",$dir,NULL)."';\">\n</td><td>\n<input class='btn btn-primary' type=\"submit\" value=\"".$GLOBALS["messages"]["btnchange"];
+	echo "\"></td>\n</tr></form></table><br />\n";
 }
 //------------------------------------------------------------------------------
 ?>

@@ -277,7 +277,7 @@ function print_table($dir, $list, $allow) {	// print table of files
 	// Size
 		echo "<td>".parse_file_size(get_file_size( $abs_item))."</td>\n";
 	// type
-		echo "<td>".get_mime_type( $abs_item, "type")."</td>\n";
+		//echo "<td>".get_mime_type( $abs_item, "type")."</td>\n";
 	// modified
 		echo "<td>".parse_file_date( get_file_date($abs_item) )."</td>\n";
 	// permissions
@@ -292,7 +292,7 @@ function print_table($dir, $list, $allow) {	// print table of files
 		if( strlen($perms)>3) {
 			$perms = substr( $perms, 2 );
 		}
-		echo '<strong>'.$perms.'</strong><br />'	
+		echo '<strong>'.$perms.'</strong>&nbsp;&nbsp;'	
 			.parse_file_type($dir,$item)
 			.parse_file_perms( $perms )
 			;
@@ -307,26 +307,21 @@ function print_table($dir, $list, $allow) {	// print table of files
 			echo "<td>\n";
 			$user_info = posix_getpwuid( $file_info["uid"] );
 			$group_info = posix_getgrgid($file_info["gid"] );
-			echo $user_info["name"]. " (".$file_info["uid"].") /<br/>";
+			echo $user_info["name"]. " (".$file_info["uid"].") / ";
 			echo $group_info["name"]. " (".$file_info["gid"].")";
 			
 			echo "</td>\n";
 		}
 		// actions
-		echo "<td style=\"white-space:nowrap;\">\n";
-		
+		echo "<td>\n";
+		echo "<div class='btn-group'>";
 		// Rename
 		// A file that could be deleted can also be renamed
 		if($allow && $is_deletable) {
-			echo "<a href=\"".make_link("rename",$dir,$item)."\">";
-			echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-			echo "src=\""._QUIXPLORER_URL."/images/_rename.gif\" alt=\"".$GLOBALS["messages"]["renamelink"]."\" title=\"";
-			echo $GLOBALS["messages"]["renamelink"]."\" /></a>\n";
+			echo "<a class='btn' href='".make_link("rename",$dir,$item)."'>".$GLOBALS["messages"]["renamelink"]."</a>\n";
 		} 
 		else {
-			echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-			echo "src=\""._QUIXPLORER_URL."/images/_rename_.gif\" alt=\"".$GLOBALS["messages"]["renamelink"]."\" title=\"";
-			echo $GLOBALS["messages"]["renamelink"]."\" />\n";
+			echo "<a class='btn disabled' href='".make_link("rename",$dir,$item)."'>".$GLOBALS["messages"]["renamelink"]."</a>\n";
 		}
 		
 		// EDIT
@@ -334,74 +329,43 @@ function print_table($dir, $list, $allow) {	// print table of files
 		if(get_is_editable($abs_item)) {
 			
 			if($allow && $is_writable) {
-				echo "<a href=\"".make_link("edit",$dir,$item)."\">";
-				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-				echo "src=\""._QUIXPLORER_URL."/images/_edit.png\" alt=\"".$GLOBALS["messages"]["editlink"]."\" title=\"";
-				echo $GLOBALS["messages"]["editlink"]."\" /></a>\n";
+				echo "<a class='btn' href='".make_link("edit",$dir,$item)."' title='".$GLOBALS["messages"]["editlink"]."'><i class='icon-pencil'></i></a>";
 			} 
-			else {
-				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-				echo "src=\""._QUIXPLORER_URL."/images/_edit_.png\" alt=\"".$GLOBALS["messages"]["editlink"]."\" title=\"";
-				echo $GLOBALS["messages"]["editlink"]."\" />\n";
-			}
+			//else {
+			//	echo "<a class='btn disabled' href='".make_link("edit",$dir,$item)."' title='".$GLOBALS["messages"]["editlink"]."'><i class='icon-pencil'></i></a>\n";
+			//}
 		} else {
 			// Extract Link
 			if( nx_isArchive( $item ) && !nx_isFTPMode() ) {
-			  echo "<a ";
-			  echo "onclick=\"javascript: ClearAll();if( confirm('". ($GLOBALS["messages"]["extract_warning"]) ."') ) { return true } else { return false;}\" ";
-			  echo "href=\"".make_link("extract",$dir,$item)."\" title=\"".$GLOBALS["messages"]["extractlink"]."\">";
-			  echo "<img border=\"0\" width=\"22\" height=\"20\" ";
-			  echo "src=\""._QUIXPLORER_URL."/images/_extract.png\" alt=\"".$GLOBALS["messages"]["extractlink"];
-			  echo "\" title=\"".$GLOBALS["messages"]["extractlink"]."\" /></a>\n";
-			}
-			else {
-			  echo "<img border=\"0\" width=\"16\" height=\"16\" ";
-			  echo "src=\""._QUIXPLORER_URL."/images/_.gif\" alt=\"\" />\n";
+			  echo "<a class='btn' href='".make_link("extract",$dir,$item)."' onclick='javascript: ClearAll();if( confirm('". ($GLOBALS["messages"]["extract_warning"]) ."') ) { return true } else { return false;}'>".$GLOBALS["messages"]["extractlink"]."</a>";
 			}
 		}
 		// VIEW
 		if( get_is_editable($abs_item) && $GLOBALS['nx_File']->is_readable( $abs_item ) && get_is_file( $abs_item)) {
 			$link = make_link("view",$dir,$item).'&tmpl=component';
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=750,height=580,directories=no,location=no,screenX=100,screenY=100';
-			echo "<a href=\"".$link."\" onclick=\"window.open('$link','win2','$status'); return false;\" title=\"". $GLOBALS["messages"]["viewlink"]."\">";
-			echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-			echo "src=\""._QUIXPLORER_URL."/images/src.gif\" alt=\"".$GLOBALS["messages"]["viewlink"]."\" /></a>\n";
+			echo "<a class='btn' href='".$link."' onclick='window.open('".$link."','win2','".$status."'); return false;' title='".$GLOBALS["messages"]["viewlink"]."'><i class='icon-eye-open'></i></a>\n";
 		}
 		// DOWNLOAD / Extract
 		if(get_is_file( $abs_item )) {
 			if($allow) {
-				echo "<a href=\"".make_link("download",$dir,$item)."\" title=\"".$GLOBALS["messages"]["downlink"]."\">";
-				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-				echo "src=\""._QUIXPLORER_URL."/images/_download.png\" alt=\"".$GLOBALS["messages"]["downlink"];
-				echo "\" title=\"".$GLOBALS["messages"]["downlink"]."\" /></a>\n";
-			} else if(!$allow) {
-				echo "<td><img border=\"0\" width=\"22\" height=\"22\" ";
-				echo "src=\""._QUIXPLORER_URL."/images/_download_.png\" alt=\"".$GLOBALS["messages"]["downlink"];
-				echo "\" title=\"".$GLOBALS["messages"]["downlink"]."\" />\n";
-			}
-		} else {
-			echo "<img border=\"0\" width=\"16\" height=\"16\" ";
-			echo "src=\""._QUIXPLORER_URL."/images/_.gif\" alt=\"\" />\n";
-		}
+				echo "<a class='btn' href='".make_link("download",$dir,$item)."' title='".$GLOBALS["messages"]["downlink"]."'><i class='icon-download'></i></a>\n";
+			} //else if(!$allow) {
+				//echo "<a class='btn disabled' href='".make_link("download",$dir,$item)."'>".$GLOBALS["messages"]["downlink"]."</a>\n";
+			//}
+		} //else {
+			//echo "<img border=\"0\" width=\"16\" height=\"16\" ";
+			//echo "src=\""._QUIXPLORER_URL."/images/_.gif\" alt=\"\" />\n";
+		//}
 		// DELETE
 		if(get_is_file( $abs_item)) {
 			if($allow && $GLOBALS['nx_File']->is_deletable( $abs_item )) {
 				$confirm_msg = sprintf($GLOBALS["messages"]["confirm_delete_file"], $item );
-				echo "<a name=\"link_item_$i\" href=\"#link_item_$i\" title=\"".$GLOBALS["messages"]["dellink"]."\" 
-				onclick=\"javascript: ClearAll(); document.getElementById('item_$i').checked = true; if( confirm('". $confirm_msg ."') ) { document.selform.do_action.value='delete'; document.selform.submit(); } else {   document.getElementById('item_$i').checked = false; return false;}\">";
-				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-				echo "src=\""._QUIXPLORER_URL."/images/_delete.gif\" alt=\"".$GLOBALS["messages"]["dellink"];
-				echo "\" title=\"".$GLOBALS["messages"]["dellink"]."\" /></a>\n";
+				echo "<a name=\"link_item_$i\" class='btn' href=\"#link_item_$i\" onclick=\"javascript: ClearAll(); document.getElementById('item_$i').checked = true; if( confirm('". $confirm_msg ."') ) { document.selform.do_action.value='delete'; document.selform.submit(); } else {   document.getElementById('item_$i').checked = false; return false;}\" title='".$GLOBALS["messages"]["dellink"]."'><i class='icon-trash'></i></a>\n";
 			} 
-			else {
-				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-				echo "src=\""._QUIXPLORER_URL."/images/_delete_.gif\" alt=\"".$GLOBALS["messages"]["dellink"];
-				echo "\" title=\"".$GLOBALS["messages"]["dellink"]."\" />\n";
-			}
-		} else {
-			echo "<img border=\"0\" width=\"16\" height=\"16\" ";
-			echo "src=\""._QUIXPLORER_URL."/images/_.gif\" alt=\"\" />\n";
+			// disabled button here if insufficient permissions
 		}
+		echo "</div>";
 		echo "</td></tr>\n";
 		$i++;
 	}
@@ -578,7 +542,7 @@ function list_dir($dir) {			// list directory contents
 		echo "		</select>
 					<input name=\"symlink_target\" type=\"hidden\" size=\"25\" title=\"{$GLOBALS['messages']['symlink_target']}\" value=\"".JPATH_BASE."\" />
 					<input name=\"mkname\" type=\"text\" size=\"15\" title=\"{$GLOBALS['messages']['nameheader']}\" />
-					<input type=\"submit\" value=\"".$GLOBALS["messages"]["btncreate"]."\" />
+					<input class=\"btn\" type=\"submit\" value=\"".$GLOBALS["messages"]["btncreate"]."\" />
 					</td></tr>
 					<tr><td id=\"quick_jumpto\">".list_bookmarks( $dir )."</td></tr>
 				</table>
@@ -600,10 +564,10 @@ function list_dir($dir) {			// list directory contents
 	// Begin Table + Form for checkboxes
 	echo "<form name=\"selform\" method=\"post\" action=\"".make_link("post",$dir,null)."\">
 	<input type=\"hidden\" name=\"do_action\" /><input type=\"hidden\" name=\"first\" value=\"y\" />
-	<table class=\"adminlist\" width=\"95%\">\n";
+	<table class=\"table table-striped table-bordered table-condensed\" width=\"95%\">\n";
 	
 	if( extension_loaded( "posix" )) {
-	  	$owner_info = '<th width="15%" class="title">' . $GLOBALS['messages']['miscowner'] . '&nbsp;';
+	  	$owner_info = '<th width="20%" class="title">' . $GLOBALS['messages']['miscowner'] . '&nbsp;';
 	  	if( nx_isFTPMode() ) {
 	  		$my_user_info = posix_getpwnam( $_SESSION['ftp_login'] );
 	  		$my_group_info = posix_getgrgid( $my_user_info['gid'] );
@@ -621,36 +585,37 @@ function list_dir($dir) {			// list directory contents
 	  $colspan = 7;
 	}
 	// Table Header
-	echo "<tr>
+	echo "<thead><tr>
 	<th width=\"2%\" class=\"title\">
 		<input type=\"checkbox\" name=\"toggleAllC\" onclick=\"javascript:ToggleAll(this);\" />
 	</th>
-	<th width=\"34%\" class=\"title\">\n";
+	<th width=\"20%\" class=\"title\">\n";
 	if($GLOBALS["order"]=="name") $new_srt = $_srt;	else $new_srt = "yes";
 	echo "<a href=\"".make_link("list",$dir,NULL,"name",$new_srt)."\">".$GLOBALS["messages"]["nameheader"];
 	if($GLOBALS["order"]=="name") echo $images; echo '</a>';
 	echo "</th>
-	<th width=\"10%\" class=\"title\">";
+	<th width=\"8%\" class=\"title\">";
 	if($GLOBALS["order"]=="size") $new_srt = $_srt;	else $new_srt = "yes";
 	echo "<a href=\"".make_link("list",$dir,NULL,"size",$new_srt)."\">".$GLOBALS["messages"]["sizeheader"];
 	if($GLOBALS["order"]=="size") echo $images;
-	echo "</a></th>
-	<th width=\"14%\" class=\"title\">";
-	if($GLOBALS["order"]=="type") $new_srt = $_srt;	else $new_srt = "yes";
-	echo "<a href=\"".make_link("list",$dir,NULL,"type",$new_srt)."\">".$GLOBALS["messages"]["typeheader"];
-	if($GLOBALS["order"]=="type") echo $images;
-	echo "</a></th>
-	<th width=\"14%\" class=\"title\">";
+	echo "</th>";
+	//echo "<th width=\"5%\" class=\"title\">";
+	//if($GLOBALS["order"]=="type") $new_srt = $_srt;	else $new_srt = "yes";
+	//echo "<a href=\"".make_link("list",$dir,NULL,"type",$new_srt)."\">".$GLOBALS["messages"]["typeheader"];
+	//if($GLOBALS["order"]=="type") echo $images;
+	//echo "</a></th>
+	echo "
+	<th width=\"10%\" class=\"title\">";
 	if($GLOBALS["order"]=="mod") $new_srt = $_srt;	else $new_srt = "yes";
 	echo "<a href=\"".make_link("list",$dir,NULL,"mod",$new_srt)."\">".$GLOBALS["messages"]["modifheader"];
 	if($GLOBALS["order"]=="mod") echo $images;
 	echo "</a></th>
-	<th width=\"2%\" class=\"title\">".$GLOBALS["messages"]["permheader"]."\n";
+	<th width=\"12%\" class=\"title\">".$GLOBALS["messages"]["permheader"]."\n";
 	echo "</th>";
 	echo $owner_info;
-	echo "<th width=\"10%\" class=\"title\">".$GLOBALS["messages"]["actionheader"]."</th>
+	echo "<th width=\"30%\" class=\"title\">".$GLOBALS["messages"]["actionheader"]."</th>
 	
-	</tr>\n";
+	</tr></thead>\n";
 	
 	// make & print Table using lists
 	print_table($dir, make_list($dir_list, $file_list), $allow);

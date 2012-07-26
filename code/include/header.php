@@ -42,9 +42,14 @@ Comment:
 //------------------------------------------------------------------------------
 require("request_uri.inc"); //Fix for IIS 
 
+$document =& JFactory::getDocument();
+// $document->addScript($url);
+$document->addStyleSheet(_QUIXPLORER_URL."/style/bootstrap/css/bootstrap.min.css");
+$document->addStyleSheet(_QUIXPLORER_URL."/style/style.css");
+
 function show_header($title) {
 	$url = str_replace( '&dir=', '&ignore=', $_SERVER['REQUEST_URI'] );
-	echo "<link rel=\"stylesheet\" href=\""._QUIXPLORER_URL."/style/style.css\" type=\"text/css\" />\n";
+	//echo "<link rel=\"stylesheet\" href=\""._QUIXPLORER_URL."/style/style.css\" type=\"text/css\" />\n";
 	echo "<div align=\"center\">\n";
 	echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" class=\"adminheading\"><tbody>\n";
 	/*$mode = JArrayHelper::getValue( $_SESSION, 'file_mode', 'file' );
